@@ -5,6 +5,27 @@ import numpy as np
 CITY_DATA = { 'chicago': 'chicago.csv',
               'new york city': 'new_york_city.csv',
               'washington': 'washington.csv' }
+MONTH = {'all':0,
+         'january': 1,
+         'february': 2,
+         'march': 3,
+         'april': 4,
+         'may': 5,
+         'june': 6,
+         'july': 7,
+         'august': 8,
+         'september': 9,
+         'october': 10,
+         'november':11,
+         'december':12}
+DAYS = {'all': 0,
+        'monday': 1,
+        'tuesday': 2,
+        'wednsday': 3,
+        'thursday': 4,
+        'friday': 5,
+        'saturday': 6,
+        'sunday': 7}
 
 def get_filters():
     """
@@ -17,13 +38,35 @@ def get_filters():
     """
     print('Hello! Let\'s explore some US bikeshare data!')
     # TO DO: get user input for city (chicago, new york city, washington). HINT: Use a while loop to handle invalid inputs
-
-
+    invalid = 1
+    while(invalid):
+        city = input("Enter city name:")
+        if not CITY_DATA.__contains__(city):
+            print("Doesn't have this city, we only provide chicago, new york city and washington, please input again")
+            invalid = 1
+        else:
+            invalid = 0
     # TO DO: get user input for month (all, january, february, ... , june)
-
-
+    invalid = 1
+    while(invalid):
+        month = input("Enter month:")
+        if not MONTH.__contains__(month):
+            print("Doesn't have this month,please input again")
+            invalid = 1
+        else:
+            invalid = 0
+    
+    
     # TO DO: get user input for day of week (all, monday, tuesday, ... sunday)
-
+    invalid = 1
+    while(invalid):
+        day = input("Enter day:")
+        if not DAYS.__contains__(day):
+            print("Doesn't have this day,please input again")
+            invalid = 1
+        else:
+            invalid = 0
+    
 
     print('-'*40)
     return city, month, day
