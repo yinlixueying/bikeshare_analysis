@@ -49,7 +49,7 @@ def get_filters():
     # TO DO: get user input for month (all, january, february, ... , june)
     invalid = 1
     while(invalid):
-        month = input("Enter month:")
+        month = input("Enter month:(all, january, february, ... , june)")
         if not MONTH.__contains__(month):
             print("Doesn't have this month,please input again")
             invalid = 1
@@ -60,7 +60,7 @@ def get_filters():
     # TO DO: get user input for day of week (all, monday, tuesday, ... sunday)
     invalid = 1
     while(invalid):
-        day = input("Enter day:")
+        day = input("Enter day:(all, monday, tuesday, ... sunday)")
         if not DAYS.__contains__(day):
             print("Doesn't have this day,please input again")
             invalid = 1
@@ -83,12 +83,30 @@ def load_data(city, month, day):
     Returns:
         df - Pandas DataFrame containing city data filtered by month and day
     """
-    df = pd.read_csv(CITY_DATA[city])
-    df['Start Time'] = pd.to_datetime(df['Start Time'])
-    df['month'] = df['Start Time'].dt.month
-    df['day'] = df['Start Time'].dt.dayofweek
-    df['hour'] = df['Start Time'].dt.hour
     
+    # load data file into a dataframe
+    df = pd.read_csv(CITY_DATA[city])
+
+    # convert the Start Time column to datetime
+    df['Start Time'] = pd.to_datetime(df['Start Time'])
+
+    # extract month and day of week from Start Time to create new columns
+    df['month'] = df['Start Time'].dt.month
+    df['day_of_week'] = df['Start Time'].dt.weekday_name
+
+    # filter by month if applicable
+    if month != 'all':
+        # use the index of the months list to get the corresponding int
+        months = ['january', 'february', 'march', 'april', 'may', 'june']
+        month = months.index(month) + 1
+
+        # filter by month to create the new dataframe
+        df = df[df['month'] == month]
+
+    # filter by day of week if applicable
+    if day != 'all':
+        # filter by day of week to create the new dataframe
+        df = df[df['day_of_week'] == day.title()]
 
     return df
 
